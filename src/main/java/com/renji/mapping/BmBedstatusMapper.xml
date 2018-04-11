@@ -33,6 +33,7 @@
     from bm_bedstatus
     where 1=1
     <include refid="Condition" />
+    order by bedIndex
   </select>
   
   <select id="selectDistinct" resultType="java.util.Map" parameterType="java.util.Map" >

@@ -16,7 +16,6 @@ function createGrid(dateData) {
 		        	   field : "bedindex",
 		        	   width : 80,
 		        	   headerAlign : "center",
-		        	   allowSort : true,
 		        	   header : "床位编号"
 		           },
 		           {
@@ -77,42 +76,6 @@ function onStatusChanged(e) {
 	var classname = status_background[e.value];
 	$(e.el).parent().next().attr("class", classname);
 }
-
-/*function onBeforeOpen(e) {
-    var grid = mini.get("datagrid1");
-    var menu = e.sender;
-            
-    var row = grid.getSelected();
-    var rowIndex = grid.indexOf(row);            
-    if (!row) {
-        e.cancel = true;
-        //阻止浏览器默认右键菜单
-        e.htmlEvent.preventDefault();
-        return;
-    }
-    ////////////////////////////////
-    var editItem = mini.getbyName("edit", menu);
-    var removeItem = mini.getbyName("remove", menu);
-    editItem.show();
-    removeItem.enable();
-}
-function onAdd(e) {
-    alert("新增记录");
-}
-function onEdit(e) {
-	console.log(grid);
-    var row = grid.getSelected();
-    if (row) {
-        var win = mini.get("editForm");
-        win.showAtPos(200, 300);
-    }
-}
-function onRemove(e) {
-    var row = grid.getSelected();
-    if (row) {
-        alert("删除：" + row.loginname)
-    }   
-}*/
 
 // 绑定数据上表事件
 grid.on("drawcell", function (e) {
@@ -283,6 +246,7 @@ function addRecord(){
 // 左边栏点击事件
 function onSelectionChanged(e) {
     var grid = e.sender;
+	// var grid = mini.get('time_grid');
     var record = grid.getSelected();
     if (record) {
     	$('#gridTitle').html('管理日期：' + record.begtime + ' 到 ' + record.endtime);
@@ -326,8 +290,16 @@ function saveStatus(){
         data:{bedStatus:mini.encode(bedStatus)},
         success:function(result){
             if(result.code == 1){
+            	var win = mini.get("editWindow");
+                win.hide();
+                
+                var grid = mini.get("time_grid");
+                grid.select(grid.getSelected(), true);
             	var options = {
             		content: '保存状态成功',
+            		state:'success',
+            		x:'center',
+            		y:'center'
             	}
             	mini.showTips(options);
             } else {
