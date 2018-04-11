@@ -7,7 +7,13 @@ public class EmBedindex {
 
     private Date createtime;
 
-    public String getBedindex() {
+    public EmBedindex(String bedindex, Date createtime) {
+		super();
+		this.bedindex = bedindex;
+		this.createtime = createtime;
+	}
+
+	public String getBedindex() {
         return bedindex;
     }
 

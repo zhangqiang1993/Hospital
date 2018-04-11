@@ -22,4 +22,6 @@ public interface BedstatusService {
 	public void addRecord(String begtime, String endtime);
 	
 	public int saveBmBedstatus(BmBedstatus bedstatus);
+	
+	public int insertBmBedstatus(BmBedstatus bedstatus);
 }

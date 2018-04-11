@@ -3,7 +3,7 @@
  */
 mini.parse();
 var isEdit = false;
-var grid = mini.get("datagrid1");
+var grid = mini.get("statusgrid");
 function createGrid(dateData) {
 	grid.set({
 		columns : [
@@ -114,25 +114,25 @@ grid.on("drawcell", function (e) {
     }
 });
 
+// 添加床位
 function add() {
 	if(!isEdit) return;
-	var data = {};
-	weekName.forEach(function(item, i){
-		data[item] = dateData[i];
-	});
-	var form = new mini.Form("#editform");
-    form.clear();
-    form.setData(data, false);
+	//$('#bedIndexInput').val(); // 清空床位编号
+	var form = new mini.Form("#addform");
+	form.clear();
     
-	var win = mini.get("editWindow");
-	win.setTitle('新增床位');
+    var grid = mini.get("time_grid");
+	var row = grid.getSelected();
+	form.setData(row);
+	
+    var win = mini.get("addWindow");
     win.showAtPos('center', 'middle');
 }
 
 function edit(){
 	if(!isEdit) return;
-	var grid1 = mini.get("datagrid1");
-	var row = grid1.getSelected();
+	var grid = mini.get("statusgrid");
+	var row = grid.getSelected();
     if (row) {
     	var data = row;
     	weekName.forEach(function(item, i){
@@ -273,7 +273,7 @@ function onSelectionChanged(e) {
 function loadData(data){
 	dateData = data.dateData;
 	var bedData = data.bedData;
-	var grid = mini.get("datagrid1");
+	var grid = mini.get("statusgrid");
 	createGrid(dateData);
 	grid.setData(bedData);
 	isEdit = true;
@@ -315,6 +315,42 @@ function cancel(){
     win.hide();
     var form = new mini.Form("#editform");
     form.clear();
+}
+
+function addBed(){
+	var form = new mini.Form("#addform");
+    form.validate();
+    if (form.isValid() == false) return;
+    var bedData = form.getData(); 
+    if(isEmpty(bedData.isTemp)){
+    	mini.alert('请选择是否是临时床位', '错误');
+    	return;
+    }
+    
+    $.ajax({
+        type : "POST",
+        url  : projectName + "/bedmotify/addBed",
+        dataType:"json",
+        data:{bedData:mini.encode(bedData)},
+        success:function(result){
+            if(result.code == 1){
+            	var win = mini.get("addWindow");
+                win.hide();
+                
+                var grid = mini.get("time_grid");
+                grid.select(grid.getSelected(), true);
+            	var options = {
+            		content: '添加床位成功',
+            		state:'success',
+            		x:'center',
+            		y:'center'
+            	}
+            	mini.showTips(options);
+            } else {
+            	mini.alert(result.msg, '错误');
+            }
+        }
+    });
 }
 
 $(function(){ 

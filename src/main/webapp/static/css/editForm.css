@@ -20,6 +20,11 @@ div.right-table {
 	top:8px; */
 }
 
-#editWindow td{
-	padding : 2px;
+#addform {
+	position: absolute;
+	top:20%;
+	left:15%;
 }
+
+#addform tr:first-child td:first-child{text-align:right}
+#addform tr:first-child td:nth-child(2){text-align:left}

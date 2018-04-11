@@ -80,4 +80,10 @@ public class BedstatusServiceImpl implements BedstatusService {
 		return bedstatusMapper.update(bedstatus);
 	}
 	
+	// 插入一条床位信息
+	public int insertBmBedstatus(BmBedstatus bedstatus) {
+		// TODO Auto-generated method stub
+		return bedstatusMapper.insert(bedstatus);
+	}
+	
 }
