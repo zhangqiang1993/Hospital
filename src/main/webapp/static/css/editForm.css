@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+/*空闲*/
+.status-unused {
+	background-color:#ffffff;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+/* 手术 */
+.status-surgery {
+	background-color:#ff0000;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+/* 出院 */
+.status-leave {
+	background-color:#00ff00;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+/* 在院 */
+.status-in {
+	background-color:#ffff00;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+/* 日间手术 */
+.status-daytime {
+	background-color:#804000;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+div.commit-bottom {
+	bottom: 11px;
+    position: absolute;
+    right: 5px;
+}
+
+div.left-table {
+	float:left;
+	width:340px;
+}
+
+div.right-table {
+	float:left;
+	width:850px;
+	margin-left: 10px;
+	/* position:absolute;
+	right:12px;
+	top:8px; */
+}

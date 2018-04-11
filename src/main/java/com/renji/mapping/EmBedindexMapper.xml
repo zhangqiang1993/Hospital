@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.renji.dao.EmBedindexMapper" >
+
+  <resultMap id="BaseResultMap" type="com.renji.model.EmBedindex" >
+    <id column="bedindex" property="bedindex" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    bedindex, createtime
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from em_bedindex
+    where 1=1
+    <include refid="Condition" />
+  </select>
+  
+  <delete id="delete" parameterType="java.util.Map" >
+    delete from em_bedindex
+    where 1=1
+    <include refid="Condition" />
+  </delete>
+  
+  <insert id="insert" parameterType="com.renji.model.EmBedindex" >
+    insert into em_bedindex (bedindex, createtime)
+    values (#{bedindex,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE})
+  </insert>
+  
+  <update id="update" parameterType="com.renji.model.EmBedindex" >
+    update em_bedindex
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+    </set>
+    where bedindex = #{bedindex,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="Condition">
+  	<if test="bedindex != null" >
+        and bedindex = #{bedindex,jdbcType=VARCHAR}
+    </if>
+  	<if test="createtime != null" >
+        and createtime = #{createtime,jdbcType=DATE}
+    </if>
+  </sql>
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.renji.dao.BmBedstatusMapper" >
+  <resultMap id="BaseResultMap" type="com.renji.model.BmBedstatus" >
+    <id column="bedIndex" property="bedindex" jdbcType="VARCHAR" />
+    <id column="begtime" property="begtime" jdbcType="DATE" />
+    <id column="endtime" property="endtime" jdbcType="DATE" />
+    <result column="monDiseaseName" property="mondiseasename" jdbcType="VARCHAR" />
+    <result column="monBedStatus" property="monbedstatus" jdbcType="VARCHAR" />
+    <result column="tueDiseaseName" property="tuediseasename" jdbcType="VARCHAR" />
+    <result column="tueBedStatus" property="tuebedstatus" jdbcType="VARCHAR" />
+    <result column="wedDiseaseName" property="weddiseasename" jdbcType="VARCHAR" />
+    <result column="wedBedStatus" property="wedbedstatus" jdbcType="VARCHAR" />
+    <result column="thuDiseaseName" property="thudiseasename" jdbcType="VARCHAR" />
+    <result column="thuBedStatus" property="thubedstatus" jdbcType="VARCHAR" />
+    <result column="friDiseaseName" property="fridiseasename" jdbcType="VARCHAR" />
+    <result column="friBedStatus" property="fribedstatus" jdbcType="VARCHAR" />
+    <result column="satDiseaseName" property="satdiseasename" jdbcType="VARCHAR" />
+    <result column="satBedStatus" property="satbedstatus" jdbcType="VARCHAR" />
+    <result column="sunDiseaseName" property="sundiseasename" jdbcType="VARCHAR" />
+    <result column="sunBedStatus" property="sunbedstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    bedIndex, DATE_FORMAT(begtime,"%Y-%m-%d") as begtime, DATE_FORMAT(endtime,"%Y-%m-%d") as endtime, monDiseaseName, monBedStatus, tueDiseaseName, tueBedStatus, wedDiseaseName, 
+    wedBedStatus, thuDiseaseName, thuBedStatus, friDiseaseName, friBedStatus, satDiseaseName, 
+    satBedStatus, sunDiseaseName, sunBedStatus
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bm_bedstatus
+    where 1=1
+    <include refid="Condition" />
+  </select>
+  
+  <select id="selectDistinct" resultType="java.util.Map" parameterType="java.util.Map" >
+    select distinct DATE_FORMAT(begtime,"%Y-%m-%d") as begtime, DATE_FORMAT(endtime,"%Y-%m-%d") as endtime
+    from bm_bedstatus
+    where 1=1
+	<if test="begtime != null">
+		and begtime = STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d")
+	</if>
+	<if test="endtime != null">
+		and endtime = STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d")
+	</if>
+	order by begtime desc
+	limit 10
+  </select>
+  
+  <delete id="delete" parameterType="java.util.Map" >
+    delete from bm_bedstatus
+    where 1=1
+    <include refid="Condition" />
+  </delete>
+  
+  <insert id="insert" parameterType="com.renji.model.BmBedstatus" >
+    insert into bm_bedstatus (bedIndex, begtime, endtime, 
+      monDiseaseName, monBedStatus, tueDiseaseName, 
+      tueBedStatus, wedDiseaseName, wedBedStatus, 
+      thuDiseaseName, thuBedStatus, friDiseaseName, 
+      friBedStatus, satDiseaseName, satBedStatus, 
+      sunDiseaseName, sunBedStatus)
+    values 
+    (#{bedindex,jdbcType=VARCHAR}, STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d"), STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d"), 
+      #{mondiseasename,jdbcType=VARCHAR}, #{monbedstatus,jdbcType=VARCHAR}, #{tuediseasename,jdbcType=VARCHAR}, 
+      #{tuebedstatus,jdbcType=VARCHAR}, #{weddiseasename,jdbcType=VARCHAR}, #{wedbedstatus,jdbcType=VARCHAR}, 
+      #{thudiseasename,jdbcType=VARCHAR}, #{thubedstatus,jdbcType=VARCHAR}, #{fridiseasename,jdbcType=VARCHAR}, 
+      #{fribedstatus,jdbcType=VARCHAR}, #{satdiseasename,jdbcType=VARCHAR}, #{satbedstatus,jdbcType=VARCHAR}, 
+      #{sundiseasename,jdbcType=VARCHAR}, #{sunbedstatus,jdbcType=VARCHAR})
+  </insert>
+
+	<insert id="insertByBatch" parameterType="java.util.List">
+		insert into
+		bm_bedstatus (bedIndex, begtime, endtime,
+		monDiseaseName, monBedStatus, tueDiseaseName,
+		tueBedStatus, wedDiseaseName, wedBedStatus,
+		thuDiseaseName, thuBedStatus, friDiseaseName,
+		friBedStatus, satDiseaseName, satBedStatus,
+		sunDiseaseName, sunBedStatus)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.bedindex,jdbcType=VARCHAR},
+			STR_TO_DATE(#{item.begtime,jdbcType=VARCHAR},"%Y-%m-%d"),
+			STR_TO_DATE(#{item.endtime,jdbcType=VARCHAR},"%Y-%m-%d"),
+			#{item.mondiseasename,jdbcType=VARCHAR},
+			#{item.monbedstatus,jdbcType=VARCHAR},
+			#{item.tuediseasename,jdbcType=VARCHAR},
+			#{item.tuebedstatus,jdbcType=VARCHAR},
+			#{item.weddiseasename,jdbcType=VARCHAR},
+			#{item.wedbedstatus,jdbcType=VARCHAR},
+			#{item.thudiseasename,jdbcType=VARCHAR},
+			#{item.thubedstatus,jdbcType=VARCHAR},
+			#{item.fridiseasename,jdbcType=VARCHAR},
+			#{item.fribedstatus,jdbcType=VARCHAR},
+			#{item.satdiseasename,jdbcType=VARCHAR},
+			#{item.satbedstatus,jdbcType=VARCHAR},
+			#{item.sundiseasename,jdbcType=VARCHAR},
+			#{item.sunbedstatus,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+  
+  <update id="update" parameterType="com.renji.model.BmBedstatus" >
+    update bm_bedstatus
+    <set >
+      <if test="mondiseasename != null" >
+        monDiseaseName = #{mondiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="monbedstatus != null" >
+        monBedStatus = #{monbedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tuediseasename != null" >
+        tueDiseaseName = #{tuediseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="tuebedstatus != null" >
+        tueBedStatus = #{tuebedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="weddiseasename != null" >
+        wedDiseaseName = #{weddiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="wedbedstatus != null" >
+        wedBedStatus = #{wedbedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="thudiseasename != null" >
+        thuDiseaseName = #{thudiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="thubedstatus != null" >
+        thuBedStatus = #{thubedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fridiseasename != null" >
+        friDiseaseName = #{fridiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="fribedstatus != null" >
+        friBedStatus = #{fribedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="satdiseasename != null" >
+        satDiseaseName = #{satdiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="satbedstatus != null" >
+        satBedStatus = #{satbedstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sundiseasename != null" >
+        sunDiseaseName = #{sundiseasename,jdbcType=VARCHAR},
+      </if>
+      <if test="sunbedstatus != null" >
+        sunBedStatus = #{sunbedstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bedIndex = #{bedindex,jdbcType=VARCHAR}
+      and begtime = STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d")
+      and endtime = STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d")
+  </update>
+
+	<sql id="Condition">
+		<if test="bedindex != null">
+			and bedIndex = #{bedindex,jdbcType=VARCHAR}
+		</if>
+		<if test="begtime != null">
+			and begtime = STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d")
+		</if>
+		<if test="endtime != null">
+			and endtime = STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d")
+		</if>
+		<if test="mondiseasename != null">
+			and monDiseaseName = #{mondiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="monbedstatus != null">
+			and monBedStatus = #{monbedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="tuediseasename != null">
+			and tueDiseaseName = #{tuediseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="tuebedstatus != null">
+			and tueBedStatus = #{tuebedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="weddiseasename != null">
+			and wedDiseaseName = #{weddiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="wedbedstatus != null">
+			and wedBedStatus = #{wedbedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="thudiseasename != null">
+			and thuDiseaseName = #{thudiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="thubedstatus != null">
+			and thuBedStatus = #{thubedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="fridiseasename != null">
+			and friDiseaseName = #{fridiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="fribedstatus != null">
+			and friBedStatus = #{fribedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="satdiseasename != null">
+			and satDiseaseName = #{satdiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="satbedstatus != null">
+			and satBedStatus = #{satbedstatus,jdbcType=VARCHAR}
+		</if>
+		<if test="sundiseasename != null">
+			and sunDiseaseName = #{sundiseasename,jdbcType=VARCHAR}
+		</if>
+		<if test="sunbedstatus != null">
+			and sunBedStatus = #{sunbedstatus,jdbcType=VARCHAR}
+		</if>
+	</sql>
+  
+</mapper>

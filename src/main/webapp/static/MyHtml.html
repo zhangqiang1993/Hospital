@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MyHtml.html</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- <link href="js/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" /> -->
+    <link href="./css/editForm.css?version=1.1.2" rel="stylesheet" type="text/css" /> 
+    
+	<script src="js/jquery.min.js" type="text/javascript"></script>
+	<script src="js/boot.js" type="text/javascript"></script>
+    <!-- <script src="js/miniui/miniui.js" type="text/javascript"></script> -->
+    <script src="js/bedmanager/constant.js" type="text/javascript"></script>
+    <script src="js/commons/common.js" type="text/javascript"></script>
+    <script src="js/bedmanager/dateutils.js" type="text/javascript"></script>
+  </head>
+  
+  <body>
+	<div class="left-table">
+		<div class="mini-toolbar" style="border-bottom:0;padding:2px;">
+			日期：
+			<input id="date-select" class="mini-datepicker" style="width:200px;" format="yyyy-MM-dd" />
+			<a class="mini-button" onclick="timeSearch()">搜索</a>
+			<a class="mini-button" onclick="addRecord()">新建</a>
+		</div>
+		<div id="time_grid" class="mini-datagrid" style="width:100%;height:280px;" idField="id" 
+			showPager="false" onselectionchanged="onSelectionChanged" >
+			<div property="columns">
+				<div field="recordName" headerAlign="center" align="center">历史记录</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="right-table">
+		<div id="gridTitle" style="width:100%;text-align:center;">管理周期</div>
+		<div style="width:100%;">
+			<div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+				<table style="width:100%;">
+					<tr>
+						<td style="width:100%;">
+							<a class="mini-button" iconCls="icon-add" onclick="add()">增加</a> 
+							<a class="mini-button" iconCls="icon-add" onclick="edit()">编辑</a> 
+							<a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
+						</td>
+						<td style="white-space:nowrap;">
+							<input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;"
+								onenter="onKeyEnter" /> 
+							<a class="mini-button" onclick="search()">查询</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="datagrid1" class="mini-datagrid" style="width:100%;height:280px;" showPager="false"
+				idField="bedIndex" multiSelect="false" <!--  contextMenu="#gridMenu" --> >
+			</div>
+		</div>
+	</div>
+
+	<div id="editWindow" class="mini-window" style="width:500px;height:270px;" title="Window"
+     	showModal="fasle" allowResize="true" allowDrag="true">
+		<div id="editform" class="form">
+			<input name="bedindex" class="mini-hidden"/>
+			<input name="begtime" class="mini-hidden"/>
+			<input name="endtime" class="mini-hidden"/>
+			<table border="0" cellpadding="1" cellspacing="2">
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="monday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="mondiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="monbedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+					<!-- <td style="width:50px;height:85%;" class="status-unused"></td> -->
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="tuesday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="tuediseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="tuebedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="wednesday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="weddiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="wedbedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="thursday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="thudiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="thubedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="friday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="fridiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="fribedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="saturday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="satdiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="satbedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+				<tr style="width:500px;height:30px;">
+					<td style="width:40px;">日期：</td>
+					<td style="width:90px;"><input name="sunday" style="width:100%;"
+						class="mini-textbox" allowInput="false"/></td>
+					<td style="width:70px;">疾病名称：</td>
+					<td style="width:80px"><input name="sundiseasename" style="width:80px;"
+						class="mini-textbox" /></td>
+					<td style="width:70px;">床位状态：</td>
+					<td style="width:90px"><input
+						class="mini-combobox" style="width:100%;" name="sunbedstatus"
+						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
+						url="./data/countrys.txt" value="001" showNullItem="false"
+						allowInput="false" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="commit-bottom">
+			<a class="mini-button" style="width:60px;" onclick="saveStatus()">保存</a>
+        	<a class="mini-button" style="width:60px;" onclick="cancel()">取消</a>
+		</div>
+    </div>
+    
+    <!-- <ul id="gridMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">              
+        <li name="add" iconCls="icon-add" onclick="onAdd">新增</li>
+	    <li name="edit" iconCls="icon-edit" onclick="onEdit">编辑节点</li>
+	    <li name="remove" iconCls="icon-remove" onclick="onRemove">删除节点</li>        
+    </ul> -->
+    
+    <script src="js/bedmanager/bedmanager.js" type="text/javascript"></script>
+  </body>
+</html>
