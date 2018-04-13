@@ -55,18 +55,21 @@ public class BedManagerController {
 	   }
 	}
 	
-	
 	@RequestMapping("/getBedStatus")
 	@ResponseBody
 	public Object getBedStatus(HttpServletResponse response, HttpServletRequest request) {
 	   JSONObject resJS = new JSONObject();
 	   String begtime = request.getParameter("begtime");
 	   String endtime = request.getParameter("endtime");
+	   String bedIndexkey = request.getParameter("bedIndexkey");
 	   
 	   try{
 		   Map<String, Object> params = new LinkedHashMap<String, Object>();
 		   params.put("begtime", begtime);
 		   params.put("endtime", endtime);
+		   if(!StringUtils.isEmpty(bedIndexkey)){
+				params.put("bedIndexkey", "%" + bedIndexkey + "%");
+			}
 		   List<BmBedstatus> bedStatusList = bedstatusService.getBmBedstatusList(params);
 		   List<String> weekTitle = getWeekTitle(begtime, endtime);
 		   resJS.put("dateData", weekTitle);
@@ -128,5 +131,25 @@ public class BedManagerController {
 		   e.printStackTrace();
 		   return new Result<Integer>(ResultCode.FAIL, e.getMessage(), 0);
 	   }
+	}
+	
+	@RequestMapping("/deleteRecord")
+	@ResponseBody
+	public Object deleteRecord(HttpServletResponse response, HttpServletRequest request){
+		String bedindex = request.getParameter("bedindex");
+		String begtime = request.getParameter("begtime");
+		String endtime = request.getParameter("endtime");
+		
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("bedindex", bedindex);
+		params.put("begtime", begtime);
+		params.put("endtime", endtime);
+		try{
+			bedstatusService.deleteRecord(params);
+			return new Result<Boolean>(ResultCode.SUCCESS, "删除床位成功", true);
+		} catch(Exception e){
+			e.printStackTrace();
+			return new Result<Boolean>(ResultCode.FAIL, e.getMessage(), false);
+		}
 	}
 }

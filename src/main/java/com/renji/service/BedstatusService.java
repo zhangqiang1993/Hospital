@@ -24,4 +24,6 @@ public interface BedstatusService {
 	public int saveBmBedstatus(BmBedstatus bedstatus);
 	
 	public int insertBmBedstatus(BmBedstatus bedstatus);
+	
+	public int deleteRecord(Map<String, Object> params);
 }

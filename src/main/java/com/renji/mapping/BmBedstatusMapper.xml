@@ -157,6 +157,9 @@
 		<if test="bedindex != null">
 			and bedIndex = #{bedindex,jdbcType=VARCHAR}
 		</if>
+		<if test="bedIndexkey != null">
+			and bedIndex like #{bedIndexkey,jdbcType=VARCHAR}
+		</if>
 		<if test="begtime != null">
 			and begtime = STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d")
 		</if>

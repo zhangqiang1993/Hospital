@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ import com.renji.service.BedstatusService;
  */
 @Service
 public class BedstatusServiceImpl implements BedstatusService {
+	
+	private static final Logger logger = Logger.getLogger(BedstatusServiceImpl.class.getName());
 	
 	@Autowired
 	private BmBedstatusMapper bedstatusMapper;
@@ -84,6 +87,18 @@ public class BedstatusServiceImpl implements BedstatusService {
 	public int insertBmBedstatus(BmBedstatus bedstatus) {
 		// TODO Auto-generated method stub
 		return bedstatusMapper.insert(bedstatus);
+	}
+
+	
+	// 删除记录和床位信息
+	@Transactional
+	public int deleteRecord(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		int resRecord = bedstatusMapper.delete(params);
+		int resBed = bedindexMapper.delete(params);
+		logger.info("deleteRecord: resRecord = " + resRecord);
+		logger.info("deleteRecord: resBed = " + resBed);
+		return 1;
 	}
 	
 }

@@ -20,7 +20,7 @@
 	<div class="left-table">
 		<div class="mini-toolbar" style="border-bottom:0;padding:2px;">
 			日期：
-			<input id="date-select" class="mini-datepicker" style="width:200px;" format="yyyy-MM-dd" />
+			<input id="date-select" class="mini-datepicker" style="width:200px;" format="yyyy-MM-dd" onvaluechanged="onDateChanged"/>
 			<a class="mini-button" onclick="timeSearch()">搜索</a>
 			<a class="mini-button" onclick="addRecord()">新建</a>
 		</div>
@@ -44,9 +44,9 @@
 							<a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
 						</td>
 						<td style="white-space:nowrap;">
-							<input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;"
-								onenter="onKeyEnter" /> 
-							<a class="mini-button" onclick="search()">查询</a>
+							<input id="bedIndexkey" class="mini-textbox" emptyText="请输入床位号" style="width:150px;"
+								onenter="onStatusKeyEnter" /> 
+							<a class="mini-button" onclick="statusSearch()">查询</a>
 						</td>
 					</tr>
 				</table>
@@ -166,7 +166,7 @@
 		</div>
 		<div class="commit-bottom">
 			<a class="mini-button" style="width:60px;" onclick="saveStatus()">保存</a>
-        	<a class="mini-button" style="width:60px;" onclick="cancel()">取消</a>
+        	<a class="mini-button" style="width:60px;" onclick="editCancel()">取消</a>
 		</div>
     </div>
     
