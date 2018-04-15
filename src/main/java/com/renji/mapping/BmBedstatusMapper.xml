@@ -6,19 +6,19 @@
     <id column="begtime" property="begtime" jdbcType="DATE" />
     <id column="endtime" property="endtime" jdbcType="DATE" />
     <result column="monDiseaseName" property="mondiseasename" jdbcType="VARCHAR" />
-    <result column="monBedStatus" property="monbedstatus" jdbcType="VARCHAR" />
+    <result column="monBedStatus" property="monbedstatus" jdbcType="INTEGER" />
     <result column="tueDiseaseName" property="tuediseasename" jdbcType="VARCHAR" />
-    <result column="tueBedStatus" property="tuebedstatus" jdbcType="VARCHAR" />
+    <result column="tueBedStatus" property="tuebedstatus" jdbcType="INTEGER" />
     <result column="wedDiseaseName" property="weddiseasename" jdbcType="VARCHAR" />
-    <result column="wedBedStatus" property="wedbedstatus" jdbcType="VARCHAR" />
+    <result column="wedBedStatus" property="wedbedstatus" jdbcType="INTEGER" />
     <result column="thuDiseaseName" property="thudiseasename" jdbcType="VARCHAR" />
-    <result column="thuBedStatus" property="thubedstatus" jdbcType="VARCHAR" />
+    <result column="thuBedStatus" property="thubedstatus" jdbcType="INTEGER" />
     <result column="friDiseaseName" property="fridiseasename" jdbcType="VARCHAR" />
-    <result column="friBedStatus" property="fribedstatus" jdbcType="VARCHAR" />
+    <result column="friBedStatus" property="fribedstatus" jdbcType="INTEGER" />
     <result column="satDiseaseName" property="satdiseasename" jdbcType="VARCHAR" />
-    <result column="satBedStatus" property="satbedstatus" jdbcType="VARCHAR" />
+    <result column="satBedStatus" property="satbedstatus" jdbcType="INTEGER" />
     <result column="sunDiseaseName" property="sundiseasename" jdbcType="VARCHAR" />
-    <result column="sunBedStatus" property="sunbedstatus" jdbcType="VARCHAR" />
+    <result column="sunBedStatus" property="sunbedstatus" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -65,11 +65,11 @@
       sunDiseaseName, sunBedStatus)
     values 
     (#{bedindex,jdbcType=VARCHAR}, STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d"), STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d"), 
-      #{mondiseasename,jdbcType=VARCHAR}, #{monbedstatus,jdbcType=VARCHAR}, #{tuediseasename,jdbcType=VARCHAR}, 
-      #{tuebedstatus,jdbcType=VARCHAR}, #{weddiseasename,jdbcType=VARCHAR}, #{wedbedstatus,jdbcType=VARCHAR}, 
-      #{thudiseasename,jdbcType=VARCHAR}, #{thubedstatus,jdbcType=VARCHAR}, #{fridiseasename,jdbcType=VARCHAR}, 
-      #{fribedstatus,jdbcType=VARCHAR}, #{satdiseasename,jdbcType=VARCHAR}, #{satbedstatus,jdbcType=VARCHAR}, 
-      #{sundiseasename,jdbcType=VARCHAR}, #{sunbedstatus,jdbcType=VARCHAR})
+      #{mondiseasename,jdbcType=VARCHAR}, #{monbedstatus,jdbcType=INTEGER}, #{tuediseasename,jdbcType=VARCHAR}, 
+      #{tuebedstatus,jdbcType=INTEGER}, #{weddiseasename,jdbcType=VARCHAR}, #{wedbedstatus,jdbcType=INTEGER}, 
+      #{thudiseasename,jdbcType=VARCHAR}, #{thubedstatus,jdbcType=INTEGER}, #{fridiseasename,jdbcType=VARCHAR}, 
+      #{fribedstatus,jdbcType=INTEGER}, #{satdiseasename,jdbcType=VARCHAR}, #{satbedstatus,jdbcType=INTEGER}, 
+      #{sundiseasename,jdbcType=VARCHAR}, #{sunbedstatus,jdbcType=INTEGER})
   </insert>
 
 	<insert id="insertByBatch" parameterType="java.util.List">
@@ -86,19 +86,19 @@
 			STR_TO_DATE(#{item.begtime,jdbcType=VARCHAR},"%Y-%m-%d"),
 			STR_TO_DATE(#{item.endtime,jdbcType=VARCHAR},"%Y-%m-%d"),
 			#{item.mondiseasename,jdbcType=VARCHAR},
-			#{item.monbedstatus,jdbcType=VARCHAR},
+			#{item.monbedstatus,jdbcType=INTEGER},
 			#{item.tuediseasename,jdbcType=VARCHAR},
-			#{item.tuebedstatus,jdbcType=VARCHAR},
+			#{item.tuebedstatus,jdbcType=INTEGER},
 			#{item.weddiseasename,jdbcType=VARCHAR},
-			#{item.wedbedstatus,jdbcType=VARCHAR},
+			#{item.wedbedstatus,jdbcType=INTEGER},
 			#{item.thudiseasename,jdbcType=VARCHAR},
-			#{item.thubedstatus,jdbcType=VARCHAR},
+			#{item.thubedstatus,jdbcType=INTEGER},
 			#{item.fridiseasename,jdbcType=VARCHAR},
-			#{item.fribedstatus,jdbcType=VARCHAR},
+			#{item.fribedstatus,jdbcType=INTEGER},
 			#{item.satdiseasename,jdbcType=VARCHAR},
-			#{item.satbedstatus,jdbcType=VARCHAR},
+			#{item.satbedstatus,jdbcType=INTEGER},
 			#{item.sundiseasename,jdbcType=VARCHAR},
-			#{item.sunbedstatus,jdbcType=VARCHAR})
+			#{item.sunbedstatus,jdbcType=INTEGER})
 		</foreach>
 	</insert>
   
@@ -109,43 +109,43 @@
         monDiseaseName = #{mondiseasename,jdbcType=VARCHAR},
       </if>
       <if test="monbedstatus != null" >
-        monBedStatus = #{monbedstatus,jdbcType=VARCHAR},
+        monBedStatus = #{monbedstatus,jdbcType=INTEGER},
       </if>
       <if test="tuediseasename != null" >
         tueDiseaseName = #{tuediseasename,jdbcType=VARCHAR},
       </if>
       <if test="tuebedstatus != null" >
-        tueBedStatus = #{tuebedstatus,jdbcType=VARCHAR},
+        tueBedStatus = #{tuebedstatus,jdbcType=INTEGER},
       </if>
       <if test="weddiseasename != null" >
         wedDiseaseName = #{weddiseasename,jdbcType=VARCHAR},
       </if>
       <if test="wedbedstatus != null" >
-        wedBedStatus = #{wedbedstatus,jdbcType=VARCHAR},
+        wedBedStatus = #{wedbedstatus,jdbcType=INTEGER},
       </if>
       <if test="thudiseasename != null" >
         thuDiseaseName = #{thudiseasename,jdbcType=VARCHAR},
       </if>
       <if test="thubedstatus != null" >
-        thuBedStatus = #{thubedstatus,jdbcType=VARCHAR},
+        thuBedStatus = #{thubedstatus,jdbcType=INTEGER},
       </if>
       <if test="fridiseasename != null" >
         friDiseaseName = #{fridiseasename,jdbcType=VARCHAR},
       </if>
       <if test="fribedstatus != null" >
-        friBedStatus = #{fribedstatus,jdbcType=VARCHAR},
+        friBedStatus = #{fribedstatus,jdbcType=INTEGER},
       </if>
       <if test="satdiseasename != null" >
         satDiseaseName = #{satdiseasename,jdbcType=VARCHAR},
       </if>
       <if test="satbedstatus != null" >
-        satBedStatus = #{satbedstatus,jdbcType=VARCHAR},
+        satBedStatus = #{satbedstatus,jdbcType=INTEGER},
       </if>
       <if test="sundiseasename != null" >
         sunDiseaseName = #{sundiseasename,jdbcType=VARCHAR},
       </if>
       <if test="sunbedstatus != null" >
-        sunBedStatus = #{sunbedstatus,jdbcType=VARCHAR},
+        sunBedStatus = #{sunbedstatus,jdbcType=INTEGER},
       </if>
     </set>
     where bedIndex = #{bedindex,jdbcType=VARCHAR}
@@ -170,43 +170,43 @@
 			and monDiseaseName = #{mondiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="monbedstatus != null">
-			and monBedStatus = #{monbedstatus,jdbcType=VARCHAR}
+			and monBedStatus = #{monbedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="tuediseasename != null">
 			and tueDiseaseName = #{tuediseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="tuebedstatus != null">
-			and tueBedStatus = #{tuebedstatus,jdbcType=VARCHAR}
+			and tueBedStatus = #{tuebedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="weddiseasename != null">
 			and wedDiseaseName = #{weddiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="wedbedstatus != null">
-			and wedBedStatus = #{wedbedstatus,jdbcType=VARCHAR}
+			and wedBedStatus = #{wedbedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="thudiseasename != null">
 			and thuDiseaseName = #{thudiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="thubedstatus != null">
-			and thuBedStatus = #{thubedstatus,jdbcType=VARCHAR}
+			and thuBedStatus = #{thubedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="fridiseasename != null">
 			and friDiseaseName = #{fridiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="fribedstatus != null">
-			and friBedStatus = #{fribedstatus,jdbcType=VARCHAR}
+			and friBedStatus = #{fribedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="satdiseasename != null">
 			and satDiseaseName = #{satdiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="satbedstatus != null">
-			and satBedStatus = #{satbedstatus,jdbcType=VARCHAR}
+			and satBedStatus = #{satbedstatus,jdbcType=INTEGER}
 		</if>
 		<if test="sundiseasename != null">
 			and sunDiseaseName = #{sundiseasename,jdbcType=VARCHAR}
 		</if>
 		<if test="sunbedstatus != null">
-			and sunBedStatus = #{sunbedstatus,jdbcType=VARCHAR}
+			and sunBedStatus = #{sunbedstatus,jdbcType=INTEGER}
 		</if>
 	</sql>
   

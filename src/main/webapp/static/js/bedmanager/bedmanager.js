@@ -28,7 +28,7 @@ function getRecordsList(date){
 	}
 	$.ajax({
      type : "GET",
-     url  : projectName + "/bed/getRecordList",
+     url  : projectName + "/history/getRecordList",
      dataType:"json",
      data:data,
      success:function(result){
@@ -57,7 +57,7 @@ function addRecord(){
 	mini.confirm('将建立' + begtime + '~' + endtime + '管理记录', '提示', function(){
 		$.ajax({
 	        type : "GET",
-	        url  : projectName + "/bed/addRecord",
+	        url  : projectName + "/history/addRecord",
 	        dataType:"json",
 	        data:{
 	        	begtime:begtime,
@@ -65,8 +65,12 @@ function addRecord(){
 	        },
 	        success:function(result){
 	            if(result.code == 1){
+	            	getRecordsList();
 	            	var options = {
 	            		content: '新建成功',
+	            		state:'success',
+						x:'center',
+						y:'center'
 	            	}
 	            	mini.showTips(options);
 	            } else {
@@ -100,6 +104,117 @@ function onSelectionChanged(e) {
          }
      });
  }
+}
+
+// 状态管理表格数据初始化
+function getStatusColor(){
+	$.ajax({
+		type : "GET",
+		url  : projectName + "/color/getColors",
+		dataType:"json",
+		success:function(result){
+			if(result.code == 1){
+				var grid = mini.get("status_color");
+				var data = result.data;
+				if(data){
+					status_background_color = {};
+					data.forEach(function(item, i){
+						status_background_color[item.nm] = item.color;
+					});
+				}
+				bindChangeStatusColor(status_background_color); // 上图绑定
+				bindChangeGridColor(status_background_color); // 上图绑定
+				initStatusCombox();
+				grid.setData(result.data);
+			} else {
+				mini.alert(result.msg, '错误');
+			}
+		}
+	});
+}
+
+// 状态管理颜色上表前绑定
+function bindChangeStatusColor(status_background_color){
+	var grid = mini.get("status_color");
+	grid.on("drawcell", function (e) {
+		var record = e.record,
+        	column = e.column,
+        	field = e.field,
+        	value = e.value;
+		if (field == "color") {
+	    	var nm = record['nm'];
+	    	e.cellHtml = "";
+	    	e.cellStyle = "background:" + status_background_color[nm];
+	    }
+	});
+}
+
+// 初始化颜色选择器
+function initColorPicker(){
+	$('#colorpicker').colorpicker({
+		displayIndicator: false
+	});
+}
+
+// 添加状态颜色
+function addColor(){
+	var form = new mini.Form("#addColorform");
+	form.clear();
+	$('#colorpicker').colorpicker("val", '');
+	
+	var win = mini.get("colorWindow");
+    win.showAtPos('center', 'middle');
+}
+
+// 编辑状态颜色
+function editColor(){
+	var grid = mini.get("status_color");
+	var row = grid.getSelected();
+	if(row){
+		var form = new mini.Form("#addColorform");
+		form.clear();
+		form.setData(row);
+		$('#colorpicker').colorpicker("val", row.color);
+		
+		var win = mini.get("colorWindow");
+	    win.showAtPos('center', 'middle');
+	} else {
+		mini.alert('请选中一条记录');
+	}
+}
+
+// 删除状态
+function deleteColor(){
+	var grid = mini.get("status_color");
+    var row = grid.getSelected();
+    if(row){
+    	mini.confirm("确定删除选中记录？", "提示", function(action){
+    		if(action == 'ok'){
+    			$.ajax({
+        			type : "GET",
+        			url  : projectName + "/color/deleteColor",
+        			dataType:"json",
+        			data:{nm:row.nm},
+        			success:function(result){
+        				if(result.code == 1){
+        					getStatusColor();
+        					var options = {
+        						content: '删除状态成功',
+        						state:'success',
+        						x:'center',
+        						y:'center'
+        					}
+        					mini.showTips(options);
+        				} else {
+        					mini.alert(result.msg, '错误');
+        				}
+        			}
+        		});
+    		}
+    	});
+    } else {
+    	mini.alert('请选中一条记录');
+    }
 }
 
 /************** 右侧表格 ****************/
@@ -252,7 +367,9 @@ function edit(){
 // 删除床位
 function remove() {
 	if(!isEdit) return;
+	var grid = mini.get("statusgrid");
     var row = grid.getSelected();
+    console.log(row);
     if (row) {
     	mini.confirm("确定删除选中记录？", "提示", function(action){
     		if(action == 'ok'){
@@ -331,6 +448,16 @@ function statusSearch() {
 
 /************** 弹出窗 ****************/
 
+function initStatusCombox(){
+	mini.getByName('monbedstatus').load(statusUrl);
+	mini.getByName('tuebedstatus').load(statusUrl);
+	mini.getByName('wedbedstatus').load(statusUrl);
+	mini.getByName('thubedstatus').load(statusUrl);
+	mini.getByName('fribedstatus').load(statusUrl);
+	mini.getByName('satbedstatus').load(statusUrl);
+	mini.getByName('sunbedstatus').load(statusUrl);
+}
+
 // 编辑状态弹出窗保存按钮
 function saveStatus(){
 	var form = new mini.Form("#editform");
@@ -405,6 +532,43 @@ function addBed(){
 	});
 }
 
+// 保存状态颜色
+function saveColor(){
+	var form = new mini.Form("#addColorform");
+	form.validate();
+	if (form.isValid() == false) return;
+	var statusColor = form.getData();
+	var color = $('#colorpicker').colorpicker("val");
+	if(isEmpty(color)){
+		mini.alert('请选择状态颜色', '错误');
+		return;
+	}
+	statusColor.color = color;
+	$.ajax({
+		type : "POST",
+		url  : projectName + "/color/saveColor",
+		dataType:"json",
+		data:{sBedStatus:mini.encode(statusColor)},
+		success:function(result){
+			if(result.code == 1){
+				var win = mini.get("colorWindow");
+				win.hide();
+
+				getStatusColor();
+				var options = {
+					content: '添加状态颜色成功',
+					state:'success',
+					x:'center',
+					y:'center'
+				}
+				mini.showTips(options);
+			} else {
+				mini.alert(result.msg, '错误');
+			}
+		}
+	});
+}
+
 // 添加床位弹出窗取消按钮
 function addCancel(){
 	var win = mini.get("addWindow");
@@ -415,7 +579,8 @@ function addCancel(){
 
 $(function(){ 
 	getRecordsList(); // 左表获取
+	getStatusColor(); // 左侧颜色状态获取
 	createGrid(dateData); // 创建表头
-	bindChangeGridColor(status_background_color); // 上图绑定
+	initColorPicker();
 }); 
 

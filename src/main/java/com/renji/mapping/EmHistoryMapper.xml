@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.renji.dao.EmHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.renji.model.EmHistory" >
+    <id column="begtime" property="begtime" jdbcType="VARCHAR" />
+    <id column="endtime" property="endtime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    begtime, endtime
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.renji.model.EmHistory" >
+    select
+    <include refid="Base_Column_List" />
+    from em_history
+    where 1=1
+    <include refid="Condition" />
+    order by begtime desc
+  </select>
+  
+  <delete id="delete" parameterType="com.renji.model.EmHistory" >
+    delete from em_history
+    where 1=1
+    <include refid="Condition" />
+  </delete>
+  
+  <insert id="insert" parameterType="com.renji.model.EmHistory" >
+    insert into em_history (begtime, endtime)
+    values (
+    	STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d"), 
+    	STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d")
+    )
+  </insert>
+  
+  <sql id="Condition">
+  	<if test="begtime != null">
+		and begtime = STR_TO_DATE(#{begtime,jdbcType=VARCHAR},"%Y-%m-%d")
+	</if>
+	<if test="endtime != null">
+		and endtime = STR_TO_DATE(#{endtime,jdbcType=VARCHAR},"%Y-%m-%d")
+	</if>
+  </sql>
+  
+</mapper>

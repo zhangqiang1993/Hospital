@@ -4,11 +4,14 @@
     <title>MyHtml.html</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-    <!-- <link href="js/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" /> -->
     <link href="./css/editForm.css?version=1.1.2" rel="stylesheet" type="text/css" /> 
+    <link href="./css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+	<link href="./css/evol-colorpicker.min.css" rel="stylesheet" type="text/css" />
     
 	<script src="js/jquery.min.js" type="text/javascript"></script>
 	<script src="js/boot.js" type="text/javascript"></script>
+	<script src="js/colorPicker/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="js/colorPicker/evol-colorpicker.min.js" type="text/javascript"></script>
     <!-- <script src="js/miniui/miniui.js" type="text/javascript"></script> -->
     <script src="js/bedmanager/constant.js" type="text/javascript"></script>
     <script src="js/commons/common.js" type="text/javascript"></script>
@@ -18,42 +21,55 @@
   
   <body>
 	<div class="left-table">
+		<div id="toolTitle" class="mini-toolbar gridTitle">工具栏</div>
 		<div class="mini-toolbar" style="border-bottom:0;padding:2px;">
 			日期：
 			<input id="date-select" class="mini-datepicker" style="width:200px;" format="yyyy-MM-dd" onvaluechanged="onDateChanged"/>
 			<a class="mini-button" onclick="timeSearch()">搜索</a>
 			<a class="mini-button" onclick="addRecord()">新建</a>
 		</div>
-		<div id="time_grid" class="mini-datagrid" style="width:100%;height:280px;" idField="id" 
+		<div id="time_grid" class="mini-datagrid" style="width:100%;height:40%;" idField="id" 
 			showPager="false" onselectionchanged="onSelectionChanged" >
 			<div property="columns">
 				<div field="recordName" headerAlign="center" align="center">历史记录</div>
 			</div>
 		</div>
+		<div class="mini-toolbar gridTitle">状态管理</div>
+		<div class="mini-toolbar" style="border-bottom:0;padding:2px;text-align:right;">
+			<a class="mini-button" iconCls="icon-add" onclick="addColor()">新增</a>
+			<a class="mini-button" iconCls="icon-edit" onclick="editColor()">编辑</a>
+			<a class="mini-button" iconCls="icon-remove" onclick="deleteColor()">删除</a>
+		</div>
+		<div id="status_color" class="mini-datagrid" showPager="false" style="width:100%;height:calc(60% - 117px);"
+			idField="nm" multiSelect="false" >
+			<div property="columns">
+				<div type="checkcolumn" width="20" headerAlign="center"></div>
+        		<div field="color" width="120" headerAlign="center">颜色</div>
+        		<div field="mc" width="190" headerAlign="center" align="center">状态</div>    
+    		</div>
+		</div>
 	</div>
-
+	
 	<div class="right-table">
-		<div id="gridTitle" style="width:100%;text-align:center;">管理周期</div>
-		<div style="width:100%;">
-			<div class="mini-toolbar" style="border-bottom:0;padding:0px;">
-				<table style="width:100%;">
-					<tr>
-						<td style="width:100%;">
-							<a class="mini-button" iconCls="icon-add" onclick="add()">增加</a> 
-							<a class="mini-button" iconCls="icon-edit" onclick="edit()">编辑</a> 
-							<a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
-						</td>
-						<td style="white-space:nowrap;">
-							<input id="bedIndexkey" class="mini-textbox" emptyText="请输入床位号" style="width:150px;"
-								onenter="onStatusKeyEnter" /> 
-							<a class="mini-button" onclick="statusSearch()">查询</a>
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div id="statusgrid" class="mini-datagrid" style="width:100%;height:280px;" showPager="false"
-				idField="bedindex" multiSelect="false" >
-			</div>
+		<div id="gridTitle" class="mini-toolbar gridTitle rightMinWidth">管理周期</div>
+		<div class="mini-toolbar rightMinWidth" style="border-bottom:0;padding:0px;">
+			<table>
+				<tr>
+					<td style="width:100%;">
+						<a class="mini-button" iconCls="icon-add" onclick="add()">增加</a> 
+						<a class="mini-button" iconCls="icon-edit" onclick="edit()">编辑</a> 
+						<a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
+					</td>
+					<td style="white-space:nowrap;">
+						<input id="bedIndexkey" class="mini-textbox" emptyText="请输入床位号" style="width:150px;"
+							onenter="onStatusKeyEnter" /> 
+						<a class="mini-button" onclick="statusSearch()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="statusgrid" class="mini-datagrid rightMinWidth" showPager="false"
+			idField="bedindex" multiSelect="false" >
 		</div>
 	</div>
 
@@ -75,7 +91,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="monbedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -89,7 +105,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="tuebedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -103,7 +119,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="wedbedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -117,7 +133,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="thubedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -131,7 +147,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="fribedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -145,7 +161,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="satbedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 				<tr style="height:30px;">
@@ -159,7 +175,7 @@
 					<td style="width:90px"><input
 						class="mini-combobox" style="width:100%;" name="sunbedstatus"
 						textField="text" valueField="id" onvaluechanged="onStatusChanged(this)"
-						url="./data/countrys.txt" value="001" showNullItem="false"
+						value="001" showNullItem="false"
 						allowInput="false" /></td>
 				</tr>
 			</table>
@@ -169,7 +185,6 @@
         	<a class="mini-button" style="width:60px;" onclick="editCancel()">取消</a>
 		</div>
     </div>
-    
     
     <div id="addWindow" class="mini-window" style="width:500px;height:300px;" title="新增床位"
      	showModal="fasle" allowResize="true" allowDrag="true">
@@ -198,6 +213,23 @@
         	<a class="mini-button" style="width:60px;" onclick="addCancel()">取消</a>
 		</div>
      </div>
+    
+    <div id="colorWindow" class="mini-window" style="width:500px;height:300px;" title="状态管理"
+     	showModal="fasle" allowResize="true" allowDrag="true">
+     	<div id="addColorform" class="form">
+     		<input name="nm" class="mini-hidden"/>
+     		<div>
+     			状态名称：<input name="mc" class="mini-textbox" emptyText="请输入状态名称" required="true"/>
+     		</div>
+     		<div id="colorDiv">
+     			颜色选择：<input id="colorpicker" name="color" />
+     		</div>
+     	</div>
+     	<div class="commit-bottom">
+			<a class="mini-button" style="width:60px;" onclick="saveColor()">保存</a>
+        	<a class="mini-button" style="width:60px;" onclick="cancelColor()">取消</a>
+		</div>
+    </div>
     
     <script src="js/bedmanager/bedmanager.js" type="text/javascript"></script>
   </body>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.renji.dao.BmSBedstatusMapper" >
+  <resultMap id="BaseResultMap" type="com.renji.model.BmSBedstatus" >
+    <id column="NM" property="nm" jdbcType="INTEGER" />
+    <result column="MC" property="mc" jdbcType="VARCHAR" />
+    <result column="XH" property="xh" jdbcType="VARCHAR" />
+    <result column="COLOR" property="color" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    NM, MC, XH, COLOR
+  </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from bm_s_bedstatus
+    where 1=1
+    <include refid="Condition" />
+  </select>
+  
+  <delete id="delete" parameterType="java.util.Map" >
+    delete from bm_s_bedstatus
+    where 1=1
+    <include refid="Condition" />
+  </delete>
+  
+  <insert id="insert" parameterType="com.renji.model.BmSBedstatus" >
+    insert into bm_s_bedstatus (NM, MC, XH, COLOR
+      )
+    values (#{nm,jdbcType=INTEGER}, #{mc,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="update" parameterType="com.renji.model.BmSBedstatus" >
+    update bm_s_bedstatus
+    <set >
+      <if test="mc != null" >
+        MC = #{mc,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null" >
+        XH = #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        COLOR = #{color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where NM = #{nm,jdbcType=INTEGER}
+  </update>
+  
+  <sql id="Condition">
+  	<if test="nm != null" >
+      AND NM = #{nm,jdbcType=VARCHAR}
+    </if>
+  	<if test="mc != null" >
+      AND MC = #{mc,jdbcType=VARCHAR}
+    </if>
+    <if test="xh != null" >
+      AND XH = #{xh,jdbcType=VARCHAR}
+    </if>
+    <if test="color != null" >
+      AND COLOR = #{color,jdbcType=VARCHAR}
+    </if>
+  </sql>
+</mapper>

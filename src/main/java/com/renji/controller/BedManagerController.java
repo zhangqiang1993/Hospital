@@ -91,47 +91,6 @@ public class BedManagerController {
 		return weekTitle;
 	}
 	
-	@RequestMapping("/getRecordList")
-	@ResponseBody
-	public Object getRecordList(HttpServletResponse response, HttpServletRequest request) {
-		String begtime = request.getParameter("begtime");
-		String endtime = request.getParameter("endtime");
-
-		Map<String, Object> params = new LinkedHashMap<String, Object>();
-		params.put("begtime", begtime);
-		params.put("endtime", endtime);
-		try{
-			List<Map<String, String>> resList = bedstatusService.getDistinctRecords(params);
-			return new Result<List<Map<String, String>>>(ResultCode.SUCCESS, "请求成功", resList);
-		} catch(Exception e){
-			e.printStackTrace();
-			return new Result<List<Map<String, String>>>(ResultCode.FAIL, e.getMessage(), null);
-		}
-	}
-	
-	@RequestMapping("/addRecord")
-	@ResponseBody
-	public Object addRecord(HttpServletResponse response, HttpServletRequest request) {
-	   String begtime = request.getParameter("begtime");
-	   String endtime = request.getParameter("endtime");
-	   if(StringUtils.isEmpty(begtime) || StringUtils.isEmpty(endtime)){
-		   return new Result<Boolean>(ResultCode.FAIL, "参数错误", false);
-	   }
-	   Map<String, Object> params = new LinkedHashMap<String, Object>();
-	   params.put("begtime", begtime);
-	   params.put("endtime", endtime);
-	   try{
-		   int num = bedstatusService.getBedRecordsNum(params);
-		   if(num != 0){
-			   return new Result<Boolean>(ResultCode.FAIL, "记录已存在", false);
-		   }
-		   bedstatusService.addRecord(begtime, endtime);
-		   return new Result<Integer>(ResultCode.SUCCESS, "请求成功", num);
-	   } catch(Exception e){
-		   e.printStackTrace();
-		   return new Result<Integer>(ResultCode.FAIL, e.getMessage(), 0);
-	   }
-	}
 	
 	@RequestMapping("/deleteRecord")
 	@ResponseBody

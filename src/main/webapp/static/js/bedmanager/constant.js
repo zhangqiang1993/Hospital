@@ -2,6 +2,7 @@
  * 
  */
 var projectName = '/BedManager';
+var statusUrl = projectName + '/dict/getStatusDict';
 var status_background = {
 		'001' : 'status-unused',
 		'002' : 'status-surgery',
@@ -11,11 +12,11 @@ var status_background = {
 }
 
 var status_background_color = {
-		'001' : '#ffffff',
-		'002' : '#ff0000',
-		'003' : '#804000',
-		'004' : '#00ff00',
-		'005' : '#ffff00'
+		0 : '#ffffff',
+		1 : '#ff0000',
+		2 : '#804000',
+		3 : '#00ff00',
+		4 : '#ffff00'
 }
 
 var weekName = [

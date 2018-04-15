@@ -9,31 +9,31 @@ public class BmBedstatus {
 	
     private String mondiseasename;
 
-    private String monbedstatus;
+    private int monbedstatus;
 
     private String tuediseasename;
 
-    private String tuebedstatus;
+    private int tuebedstatus;
 
     private String weddiseasename;
 
-    private String wedbedstatus;
+    private int wedbedstatus;
 
     private String thudiseasename;
 
-    private String thubedstatus;
+    private int thubedstatus;
 
     private String fridiseasename;
 
-    private String fribedstatus;
+    private int fribedstatus;
 
     private String satdiseasename;
 
-    private String satbedstatus;
+    private int satbedstatus;
 
     private String sundiseasename;
 
-    private String sunbedstatus;
+    private int sunbedstatus;
     
     public BmBedstatus(){
     	super();
@@ -77,12 +77,12 @@ public class BmBedstatus {
         this.mondiseasename = mondiseasename == null ? null : mondiseasename.trim();
     }
 
-    public String getMonbedstatus() {
+    public int getMonbedstatus() {
         return monbedstatus;
     }
 
-    public void setMonbedstatus(String monbedstatus) {
-        this.monbedstatus = monbedstatus == null ? null : monbedstatus.trim();
+    public void setMonbedstatus(int monbedstatus) {
+        this.monbedstatus = monbedstatus;
     }
 
     public String getTuediseasename() {
@@ -90,15 +90,15 @@ public class BmBedstatus {
     }
 
     public void setTuediseasename(String tuediseasename) {
-        this.tuediseasename = tuediseasename == null ? null : tuediseasename.trim();
+        this.tuediseasename = tuediseasename;
     }
 
-    public String getTuebedstatus() {
+    public int getTuebedstatus() {
         return tuebedstatus;
     }
 
-    public void setTuebedstatus(String tuebedstatus) {
-        this.tuebedstatus = tuebedstatus == null ? null : tuebedstatus.trim();
+    public void setTuebedstatus(int tuebedstatus) {
+        this.tuebedstatus = tuebedstatus;
     }
 
     public String getWeddiseasename() {
@@ -109,12 +109,12 @@ public class BmBedstatus {
         this.weddiseasename = weddiseasename == null ? null : weddiseasename.trim();
     }
 
-    public String getWedbedstatus() {
+    public int getWedbedstatus() {
         return wedbedstatus;
     }
 
-    public void setWedbedstatus(String wedbedstatus) {
-        this.wedbedstatus = wedbedstatus == null ? null : wedbedstatus.trim();
+    public void setWedbedstatus(int wedbedstatus) {
+        this.wedbedstatus = wedbedstatus;
     }
 
     public String getThudiseasename() {
@@ -125,12 +125,12 @@ public class BmBedstatus {
         this.thudiseasename = thudiseasename == null ? null : thudiseasename.trim();
     }
 
-    public String getThubedstatus() {
+    public int getThubedstatus() {
         return thubedstatus;
     }
 
-    public void setThubedstatus(String thubedstatus) {
-        this.thubedstatus = thubedstatus == null ? null : thubedstatus.trim();
+    public void setThubedstatus(int thubedstatus) {
+        this.thubedstatus = thubedstatus;
     }
 
     public String getFridiseasename() {
@@ -141,12 +141,12 @@ public class BmBedstatus {
         this.fridiseasename = fridiseasename == null ? null : fridiseasename.trim();
     }
 
-    public String getFribedstatus() {
+    public int getFribedstatus() {
         return fribedstatus;
     }
 
-    public void setFribedstatus(String fribedstatus) {
-        this.fribedstatus = fribedstatus == null ? null : fribedstatus.trim();
+    public void setFribedstatus(int fribedstatus) {
+        this.fribedstatus = fribedstatus;
     }
 
     public String getSatdiseasename() {
@@ -157,12 +157,12 @@ public class BmBedstatus {
         this.satdiseasename = satdiseasename == null ? null : satdiseasename.trim();
     }
 
-    public String getSatbedstatus() {
+    public int getSatbedstatus() {
         return satbedstatus;
     }
 
-    public void setSatbedstatus(String satbedstatus) {
-        this.satbedstatus = satbedstatus == null ? null : satbedstatus.trim();
+    public void setSatbedstatus(int satbedstatus) {
+        this.satbedstatus = satbedstatus;
     }
 
     public String getSundiseasename() {
@@ -173,12 +173,12 @@ public class BmBedstatus {
         this.sundiseasename = sundiseasename == null ? null : sundiseasename.trim();
     }
 
-    public String getSunbedstatus() {
+    public int getSunbedstatus() {
         return sunbedstatus;
     }
 
-    public void setSunbedstatus(String sunbedstatus) {
-        this.sunbedstatus = sunbedstatus == null ? null : sunbedstatus.trim();
+    public void setSunbedstatus(int sunbedstatus) {
+        this.sunbedstatus = sunbedstatus;
     }
 
 	@Override

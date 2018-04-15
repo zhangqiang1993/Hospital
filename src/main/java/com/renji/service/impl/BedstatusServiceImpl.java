@@ -73,7 +73,9 @@ public class BedstatusServiceImpl implements BedstatusService {
 		for(EmBedindex emBedindex : beedindexList){
 			bedStatusList.add(new BmBedstatus(emBedindex.getBedindex(), begtime, endtime));
 		}
-		bedstatusMapper.insertByBatch(bedStatusList);
+		if(bedStatusList != null && bedStatusList.size() > 0){
+			bedstatusMapper.insertByBatch(bedStatusList);
+		}
 	}
 	
 	// 更新床位状态
