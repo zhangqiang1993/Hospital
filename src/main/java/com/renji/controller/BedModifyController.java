@@ -57,14 +57,14 @@ public class BedModifyController {
 			if(statusList != null && statusList.size() > 0){
 				return new Result<Boolean>(ResultCode.FAIL, "已存在床位编号", false);
 			}
+			// 不是临时床位，检查是否插入新床位
 			if("0".equals(isTemp)){
 				params.clear();
 				params.put("bedindex", bedIndex);
 				List<EmBedindex> indexList = bedindexService.getBmBedindexList(params);
-				if(indexList != null && indexList.size() > 0){
-					return new Result<Boolean>(ResultCode.FAIL, "已存在床位编号", false);
+				if(indexList == null || indexList.size() == 0){
+					bedindexService.insert(new EmBedindex(bedIndex, new Date()));
 				}
-				bedindexService.insert(new EmBedindex(bedIndex, new Date()));
 			}
 			BmBedstatus bedstatus = new BmBedstatus();
 			bedstatus.setBedindex(bedIndex);

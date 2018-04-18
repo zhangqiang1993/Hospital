@@ -369,7 +369,6 @@ function remove() {
 	if(!isEdit) return;
 	var grid = mini.get("statusgrid");
     var row = grid.getSelected();
-    console.log(row);
     if (row) {
     	mini.confirm("确定删除选中记录？", "提示", function(action){
     		if(action == 'ok'){
@@ -575,6 +574,12 @@ function addCancel(){
 	win.hide();
 	var form = new mini.Form("#addform");
 	form.clear();
+}
+
+// 取消颜色编辑
+function cancelColor(){
+	var win = mini.get("colorWindow");
+	win.hide();
 }
 
 $(function(){ 

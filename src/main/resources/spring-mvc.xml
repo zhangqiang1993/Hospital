@@ -20,6 +20,10 @@
 	<mvc:annotation-driven/>
 	
 	<mvc:resources mapping="/static/**" location="/static/"/>
+	<mvc:resources mapping="/img/**" location="/static/img/"/>   
+ 	<mvc:resources mapping="/js/**" location="/static/js/"/>    
+ 	<mvc:resources mapping="/css/**" location="/static/css/"/> 
+ 	<mvc:resources mapping="/data/**" location="/static/data/"/> 
 
 	<!-- 视图解析器 -->
 	<bean id="viewResolver"

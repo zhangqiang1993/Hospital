@@ -74,3 +74,11 @@ div#colorDiv {
 input#colorpicker {
 	width: 146px;
 }
+
+div.mini-grid .mini-grid-rows {
+	height: calc(100% - 27px)!important;;
+}
+
+#statusgrid .mini-panel-viewport.mini-grid-viewport {
+	height: 100%!important;;
+}
